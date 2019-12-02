@@ -13,6 +13,7 @@ from numpy.linalg import inv
 w = 2
 MaxIter = 5
 x = math.pow(10,(-5))
+p = 0
 
 file = (r'logfuz.xlsx')
 excel = xlrd.open_workbook(file, encoding_override='cp1252')
@@ -97,6 +98,9 @@ for i in range(MaxIter):
     XkminV1T = np.transpose(XkminV1)
     XkminV2T = np.transpose(XkminV2)
     
+    XkminV1kuadrat = np.power(XkminV1, 2)
+    XkminV2kuadrat = np.power(XkminV2, 2)
+    
     XkminV1kaliXkminV1T = np.matmul(XkminV1, XkminV1T)
     XkminV2kaliXkminV2T = np.matmul(XkminV2, XkminV2T)
     
@@ -148,9 +152,40 @@ for i in range(MaxIter):
     
     xexpc1 = np.exp(Xc1)
     xexpc2 = np.exp(Xc2)
-
-    print(xexpc1)
-    print(xexpc2)
+    
+    distancec1 = (math.sqrt(abs(detFc1))/priorc1) * xexpc1
+    distancec2 = (math.sqrt(abs(detFc2))/priorc2) * xexpc2
+    
+    distanceTotc1 = np.sum(distancec1)
+    distanceTotc2 = np.sum(distancec2)
+    
+    objektif = distanceTotc1 + distanceTotc2
+    kesimpulan = abs(objektif - p)
+    
+    L1 = XkminV1kuadrat.sum(axis=1)
+    L2 = XkminV2kuadrat.sum(axis=1)
+    LTotal = L1+L2
+    
+    partisiBaruc1 = L1/LTotal
+    partisiBaruc2 = L2/LTotal
+    
+    cluster1 = partisiBaruc1
+    cluster2 = partisiBaruc2
+    
+    print(cluster1)
+    print(cluster2)
+    
+    
+    p = kesimpulan
+    print(p)
+    
+    
+    
+    
+    
+    
+    
+    
     
         
     
